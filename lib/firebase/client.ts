@@ -40,4 +40,3 @@ if (typeof window !== "undefined") {
 }
 
 export { db, auth };
-export default app;

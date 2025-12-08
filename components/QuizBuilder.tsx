@@ -7,7 +7,7 @@ interface QuizBuilderProps {
   quiz?: Quiz;
   questions?: Question[];
   onSave: (
-    quiz: Omit<Quiz, "id" | "created_at">,
+    quiz: Omit<Quiz, "id" | "created_at" | "user_id">,
     questions: Omit<Question, "id" | "quiz_id" | "created_at">[]
   ) => Promise<void>;
 }

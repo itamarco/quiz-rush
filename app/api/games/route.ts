@@ -3,6 +3,7 @@ import { adminDb } from "@/lib/firebase/admin";
 import { generateUniquePin } from "@/lib/firebase/utils";
 import { FieldValue } from "firebase-admin/firestore";
 import { logger } from "@/lib/logger";
+import { Game, Quiz } from "@/types";
 
 export async function POST(request: NextRequest) {
   try {
@@ -32,7 +33,7 @@ export async function POST(request: NextRequest) {
 
     const gameRef = await adminDb.collection("games").add(gameData);
     const gameDoc = await gameRef.get();
-    const game = { id: gameDoc.id, ...gameDoc.data() };
+    const game = { id: gameDoc.id, ...gameDoc.data() } as Game;
 
     logger.info("Successfully created game", {
       gameId: game.id,
@@ -77,10 +78,12 @@ export async function GET(request: NextRequest) {
     }
 
     const gameDoc = snapshot.docs[0];
-    const game = { id: gameDoc.id, ...gameDoc.data() };
+    const game = { id: gameDoc.id, ...gameDoc.data() } as Game;
 
     const quizDoc = await adminDb.collection("quizzes").doc(game.quiz_id).get();
-    const quiz = quizDoc.exists ? { id: quizDoc.id, ...quizDoc.data() } : null;
+    const quiz = quizDoc.exists
+      ? ({ id: quizDoc.id, ...quizDoc.data() } as Quiz)
+      : null;
 
     if (!quiz) {
       logger.warn("Quiz not found for game", {
@@ -130,7 +133,7 @@ export async function PATCH(request: NextRequest) {
     await gameRef.update(updates);
 
     const gameDoc = await gameRef.get();
-    const game = { id: gameDoc.id, ...gameDoc.data() };
+    const game = { id: gameDoc.id, ...gameDoc.data() } as Game;
 
     logger.info("Successfully updated game", {
       game_id,

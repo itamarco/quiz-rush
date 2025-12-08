@@ -3,6 +3,7 @@ import { adminDb } from "@/lib/firebase/admin";
 import { calculatePoints } from "@/lib/scoring";
 import { FieldValue } from "firebase-admin/firestore";
 import { logger } from "@/lib/logger";
+import { Question } from "@/types";
 
 export async function POST(request: NextRequest) {
   try {
@@ -75,7 +76,7 @@ export async function POST(request: NextRequest) {
     const questions = questionsSnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
-    }));
+    })) as Question[];
 
     if (questions.length <= question_index) {
       logger.warn("Question index out of bounds", {

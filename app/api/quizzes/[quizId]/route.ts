@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { adminDb } from "@/lib/firebase/admin";
 import { verifyAuth } from "@/lib/auth";
 import { logger } from "@/lib/logger";
+import { Quiz, Question } from "@/types";
 
 export async function GET(
   request: NextRequest,
@@ -26,7 +27,7 @@ export async function GET(
       return NextResponse.json({ error: "Quiz not found" }, { status: 404 });
     }
 
-    const quiz = { id: quizDoc.id, ...quizDoc.data() };
+    const quiz = { id: quizDoc.id, ...quizDoc.data() } as Quiz;
 
     if (quiz.user_id !== auth.uid) {
       logger.warn("Forbidden access attempt to get quiz", {
@@ -47,7 +48,7 @@ export async function GET(
     const questions = questionsSnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
-    }));
+    })) as Question[];
 
     logger.info("Successfully fetched quiz", {
       uid: auth.uid,
