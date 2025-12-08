@@ -2,6 +2,8 @@
 
 A real-time multiplayer quiz game alternative to Kahoot, built with Next.js 14 and Firebase/Firestore.
 
+**Live Demo**: [https://quiz-rush-nine.vercel.app](https://quiz-rush-nine.vercel.app)
+
 ## Features
 
 - **Quiz Builder**: Create and edit quizzes with multiple-choice questions
@@ -130,6 +132,8 @@ Firestore collections:
 
 ## Deployment
 
+**Live URL**: [https://quiz-rush-nine.vercel.app](https://quiz-rush-nine.vercel.app)
+
 Deploy to Vercel:
 
 ```bash
@@ -137,6 +141,30 @@ vercel
 ```
 
 Make sure to add your Firebase environment variables in Vercel's project settings.
+
+## E2E Testing
+
+### Running Tests Locally
+
+Run e2e tests against the local development server (starts dev server automatically):
+
+```bash
+npm run test:e2e
+```
+
+### Running Tests Against Production
+
+Run e2e tests against the deployed production app:
+
+```bash
+npm run test:e2e:prod
+```
+
+**Note**: Vercel itself doesn't run e2e tests. You can:
+
+- Run tests locally against the deployed URL using `npm run test:e2e:prod`
+- Set up GitHub Actions to run tests against the deployed URL on each deployment
+- Use Vercel's preview deployments for testing before merging to production
 
 ## Advantages of Firebase/Firestore
 
