@@ -69,6 +69,26 @@ This error typically occurs when the OAuth consent screen is not properly config
    - For local development: `localhost` should already be there
    - For production: Add your domain (e.g., `yourdomain.com`, `yourdomain.vercel.app`)
 
+### For Vercel Deployment (CRITICAL)
+
+**If you're deploying to Vercel, you MUST add your Vercel domain:**
+
+1. Go to Firebase Console > **Authentication** > **Settings** > **Authorized domains**
+2. Click **Add domain**
+3. Add your Vercel domain (e.g., `quiz-rush-nine.vercel.app`)
+   - **Important**: Add BOTH the preview domain AND production domain if they differ
+   - Example: `quiz-rush-nine.vercel.app` and `your-custom-domain.com` (if you have one)
+4. Click **Add**
+
+**Also update OAuth Redirect URIs in Google Cloud Console:**
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com) > **APIs & Services** > **Credentials**
+2. Find your OAuth 2.0 Client ID (Web client) - this is the same one used by Firebase
+3. Under **Authorized redirect URIs**, add:
+   - `https://YOUR-VERCEL-DOMAIN.vercel.app/__/auth/handler` (replace with your actual Vercel domain)
+   - Example: `https://quiz-rush-nine.vercel.app/__/auth/handler`
+4. Click **Save**
+
 ## Step 5: Verify Environment Variables
 
 Make sure your `.env.local` file has all required variables:
@@ -144,6 +164,7 @@ If you're still seeing this error after completing the steps above:
      - `https://YOUR-PROJECT-ID.firebaseapp.com/__/auth/handler` (replace with your actual Project ID)
      - `http://localhost:3000/__/auth/handler` (for local dev)
      - `http://localhost:3000` (for local dev)
+     - **For Vercel**: `https://YOUR-VERCEL-DOMAIN.vercel.app/__/auth/handler` (e.g., `https://quiz-rush-nine.vercel.app/__/auth/handler`)
 
 4. **Clear browser cache and cookies**:
 
@@ -157,6 +178,27 @@ If you're still seeing this error after completing the steps above:
 
 6. **Wait a few minutes**: OAuth consent screen changes can take a few minutes to propagate
 
+## Step 9: Configure Vercel Environment Variables
+
+**If deploying to Vercel, make sure all Firebase environment variables are set:**
+
+1. Go to your Vercel project dashboard
+2. Navigate to **Settings** > **Environment Variables**
+3. Add all required Firebase variables:
+
+   - `NEXT_PUBLIC_FIREBASE_API_KEY`
+   - `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN` (should be `your-project-id.firebaseapp.com`)
+   - `NEXT_PUBLIC_FIREBASE_PROJECT_ID`
+   - `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET`
+   - `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`
+   - `NEXT_PUBLIC_FIREBASE_APP_ID`
+   - `FIREBASE_ADMIN_PROJECT_ID`
+   - `FIREBASE_ADMIN_CLIENT_EMAIL`
+   - `FIREBASE_ADMIN_PRIVATE_KEY`
+
+4. **Important**: Set these for **Production**, **Preview**, and **Development** environments
+5. After adding variables, **redeploy your application** for changes to take effect
+
 ## Quick Fix Checklist
 
 - [ ] OAuth consent screen configured in Google Cloud Console
@@ -165,5 +207,8 @@ If you're still seeing this error after completing the steps above:
 - [ ] Google Sign-in enabled in Firebase Console
 - [ ] Project support email set in Firebase
 - [ ] `localhost` in authorized domains
-- [ ] Environment variables correctly set
+- [ ] **Vercel domain added to Firebase authorized domains** (if deploying to Vercel)
+- [ ] **Vercel redirect URI added to Google Cloud Console** (if deploying to Vercel)
+- [ ] Environment variables correctly set (both locally and in Vercel)
 - [ ] Development server restarted after env changes
+- [ ] Vercel deployment redeployed after adding environment variables
