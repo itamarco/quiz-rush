@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { db } from "@/lib/firebase/client";
 import { doc, collection, query, onSnapshot } from "firebase/firestore";
@@ -9,6 +9,7 @@ import Timer from "@/components/Timer";
 import Leaderboard from "@/components/Leaderboard";
 import { Game, Question, LeaderboardEntry } from "@/types";
 import { logger } from "@/lib/logger-client";
+import { useSound } from "@/contexts/SoundContext";
 
 type PlayerState = "nickname" | "lobby" | "question" | "results" | "finished";
 
@@ -16,6 +17,7 @@ export default function PlayerGamePage() {
   const params = useParams();
   const router = useRouter();
   const gameId = params.gameId as string;
+  const { playSound } = useSound();
 
   const [playerState, setPlayerState] = useState<PlayerState>("nickname");
   const [nickname, setNickname] = useState("");
@@ -35,6 +37,7 @@ export default function PlayerGamePage() {
   const [questionStartTime, setQuestionStartTime] = useState<number | null>(
     null
   );
+  const lastStateEventRef = useRef<string | null>(null);
 
   useEffect(() => {
     const loadGame = async () => {
@@ -83,6 +86,11 @@ export default function PlayerGamePage() {
       if (!snapshot.exists()) return;
 
       const state = snapshot.data();
+      const eventKey =
+        state.event === "question_start" || state.event === "question_end"
+          ? `${state.event}-${state.questionIndex}`
+          : state.event;
+      const isNewEvent = lastStateEventRef.current !== eventKey;
 
       if (state.event === "question_start") {
         const { questionIndex: idx, question, timeLimit: limit } = state;
@@ -96,6 +104,9 @@ export default function PlayerGamePage() {
         setTimerRunning(true);
         setQuestionStartTime(Date.now());
         setPlayerState("question");
+        if (isNewEvent) {
+          playSound("questionStart");
+        }
       } else if (state.event === "question_end") {
         const { correctAnswer } = state;
         setCorrectIndex(correctAnswer);
@@ -107,10 +118,18 @@ export default function PlayerGamePage() {
         setTimeout(() => {
           setPlayerState("lobby");
         }, 5000);
+        if (isNewEvent) {
+          playSound("questionEnd");
+        }
       } else if (state.event === "game_end") {
         setPlayerState("finished");
         updateLeaderboard();
+        if (isNewEvent) {
+          playSound("questionEnd");
+        }
       }
+
+      lastStateEventRef.current = eventKey;
     });
 
     return () => unsubscribe();
@@ -251,6 +270,26 @@ export default function PlayerGamePage() {
       });
     }
   };
+
+  useEffect(() => {
+    if (
+      playerState !== "results" ||
+      !showCorrect ||
+      selectedAnswer === null ||
+      correctIndex === undefined
+    ) {
+      return;
+    }
+
+    const correct = selectedAnswer === correctIndex;
+    playSound(correct ? "correctAnswer" : "incorrectAnswer");
+    playSound("leaderboard");
+  }, [playerState, showCorrect, selectedAnswer, correctIndex, playSound]);
+
+  useEffect(() => {
+    if (playerState !== "finished") return;
+    playSound("leaderboard");
+  }, [playerState, playSound]);
 
   if (playerState === "nickname") {
     return (

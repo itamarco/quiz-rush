@@ -16,6 +16,7 @@ import Timer from "@/components/Timer";
 import Leaderboard from "@/components/Leaderboard";
 import { Game, Question, LeaderboardEntry } from "@/types";
 import { logger } from "@/lib/logger-client";
+import { useSound } from "@/contexts/SoundContext";
 
 type GameState = "lobby" | "question" | "results" | "finished";
 
@@ -23,6 +24,7 @@ export default function HostGamePage() {
   const params = useParams();
   const router = useRouter();
   const gameId = params.gameId as string;
+  const { playSound } = useSound();
 
   const [game, setGame] = useState<Game | null>(null);
   const [quiz, setQuiz] = useState<{ time_limit: number } | null>(null);
@@ -148,6 +150,7 @@ export default function HostGamePage() {
       setGameState("question");
       setCurrentQuestionIndex(0);
       setQuestionStartTime(Date.now());
+      playSound("gameStart");
     } catch (error) {
       logger.error("Error starting game", error, {
         gameId,
@@ -192,6 +195,8 @@ export default function HostGamePage() {
 
       setGameState("results");
       updateLeaderboard();
+      playSound("questionEnd");
+      playSound("leaderboard");
 
       setTimeout(async () => {
         if (currentQuestionIndex < questions.length - 1) {
@@ -250,6 +255,14 @@ export default function HostGamePage() {
       console.error("Error ending game:", error);
     }
   };
+
+  useEffect(() => {
+    if (gameState === "question") {
+      playSound("questionStart");
+    } else if (gameState === "finished") {
+      playSound("leaderboard");
+    }
+  }, [gameState, playSound]);
 
   if (!game || !quiz || questions.length === 0) {
     return (

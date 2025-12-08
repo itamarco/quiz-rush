@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useSound } from "@/contexts/SoundContext";
 
 interface TimerProps {
   timeLimit: number;
@@ -16,6 +17,8 @@ export default function Timer({
   startTime,
 }: TimerProps) {
   const [timeLeft, setTimeLeft] = useState(timeLimit);
+  const { playSound } = useSound();
+  const lastTickRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (!running) {
@@ -45,6 +48,19 @@ export default function Timer({
 
     return () => clearInterval(timer);
   }, [running, timeLimit, onComplete, startTime]);
+
+  useEffect(() => {
+    if (!running) {
+      lastTickRef.current = null;
+      return;
+    }
+
+    if (timeLeft <= 0 || timeLeft > 3) return;
+    if (lastTickRef.current === timeLeft) return;
+
+    lastTickRef.current = timeLeft;
+    playSound("timerTick");
+  }, [timeLeft, running, playSound]);
 
   const percentage = (timeLeft / timeLimit) * 100;
   const color =

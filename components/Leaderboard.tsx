@@ -1,6 +1,8 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { LeaderboardEntry } from "@/types";
+import { useSound } from "@/contexts/SoundContext";
 
 interface LeaderboardProps {
   entries: LeaderboardEntry[];
@@ -11,6 +13,8 @@ export default function Leaderboard({
   entries,
   maxDisplay = 5,
 }: LeaderboardProps) {
+  const { playSound } = useSound();
+  const previousCountRef = useRef(0);
   const displayEntries = entries.slice(0, maxDisplay);
 
   const getRankColor = (rank: number) => {
@@ -26,6 +30,14 @@ export default function Leaderboard({
     if (rank === 3) return "🥉";
     return `${rank}.`;
   };
+
+  useEffect(() => {
+    if (entries.length === 0) return;
+    if (previousCountRef.current !== entries.length) {
+      playSound("leaderboard");
+    }
+    previousCountRef.current = entries.length;
+  }, [entries.length, playSound]);
 
   return (
     <div className="brutal-card bg-[#FFF9E6] p-6">
