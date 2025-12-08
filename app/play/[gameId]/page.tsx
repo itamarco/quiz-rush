@@ -350,6 +350,7 @@ export default function PlayerGamePage() {
                 }
               }}
               running={timerRunning}
+              startTime={questionStartTime}
             />
 
             <div className="brutal-card bg-[#FFF9E6] p-6">

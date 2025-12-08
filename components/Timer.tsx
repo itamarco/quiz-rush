@@ -6,9 +6,15 @@ interface TimerProps {
   timeLimit: number;
   onComplete: () => void;
   running: boolean;
+  startTime?: number | null;
 }
 
-export default function Timer({ timeLimit, onComplete, running }: TimerProps) {
+export default function Timer({
+  timeLimit,
+  onComplete,
+  running,
+  startTime,
+}: TimerProps) {
   const [timeLeft, setTimeLeft] = useState(timeLimit);
 
   useEffect(() => {
@@ -17,23 +23,28 @@ export default function Timer({ timeLimit, onComplete, running }: TimerProps) {
       return;
     }
 
-    if (timeLeft <= 0) {
-      onComplete();
+    if (!startTime) {
       return;
     }
 
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
-          onComplete();
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
+    const updateTimer = () => {
+      const elapsed = Math.floor((Date.now() - startTime) / 1000);
+      const remaining = Math.max(0, timeLimit - elapsed);
+
+      if (remaining <= 0) {
+        setTimeLeft(0);
+        onComplete();
+        return;
+      }
+
+      setTimeLeft(remaining);
+    };
+
+    updateTimer();
+    const timer = setInterval(updateTimer, 100);
 
     return () => clearInterval(timer);
-  }, [timeLeft, running, timeLimit, onComplete]);
+  }, [running, timeLimit, onComplete, startTime]);
 
   const percentage = (timeLeft / timeLimit) * 100;
   const color =

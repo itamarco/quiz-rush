@@ -30,6 +30,9 @@ export default function HostGamePage() {
   const [gameState, setGameState] = useState<GameState>("lobby");
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
+  const [questionStartTime, setQuestionStartTime] = useState<number | null>(
+    null
+  );
 
   useEffect(() => {
     const loadGame = async () => {
@@ -144,6 +147,7 @@ export default function HostGamePage() {
       );
       setGameState("question");
       setCurrentQuestionIndex(0);
+      setQuestionStartTime(Date.now());
     } catch (error) {
       logger.error("Error starting game", error, {
         gameId,
@@ -213,6 +217,7 @@ export default function HostGamePage() {
               prev ? { ...prev, current_question: nextIndex } : null
             );
             setGameState("question");
+            setQuestionStartTime(Date.now());
           } catch (error) {
             console.error("Error moving to next question:", error);
           }
@@ -297,6 +302,7 @@ export default function HostGamePage() {
               timeLimit={quiz.time_limit}
               onComplete={handleTimerComplete}
               running={true}
+              startTime={questionStartTime}
             />
             <QuestionDisplay
               question={currentQuestion}
