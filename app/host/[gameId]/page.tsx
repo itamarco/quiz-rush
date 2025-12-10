@@ -206,41 +206,41 @@ export default function HostGamePage() {
       updateLeaderboard();
       playSound("questionEnd");
       playSound("leaderboard");
-
-      setTimeout(async () => {
-        if (currentQuestionIndex < questions.length - 1) {
-          const nextIndex = currentQuestionIndex + 1;
-          try {
-            await fetch(`/api/games/${gameId}`, {
-              method: "PATCH",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                updates: {
-                  current_question: nextIndex,
-                },
-                stateUpdate: {
-                  event: "question_start",
-                  questionIndex: nextIndex,
-                  question: questions[nextIndex],
-                  timeLimit: quiz?.time_limit || 15,
-                },
-              }),
-            });
-            setCurrentQuestionIndex(nextIndex);
-            setGame((prev) =>
-              prev ? { ...prev, current_question: nextIndex } : null
-            );
-            setGameState("question");
-            setQuestionStartTime(Date.now());
-          } catch (error) {
-            console.error("Error moving to next question:", error);
-          }
-        } else {
-          endGame();
-        }
-      }, 5000);
     } catch (error) {
       console.error("Error completing question:", error);
+    }
+  };
+
+  const goToNextQuestion = async () => {
+    if (currentQuestionIndex < questions.length - 1) {
+      const nextIndex = currentQuestionIndex + 1;
+      try {
+        await fetch(`/api/games/${gameId}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            updates: {
+              current_question: nextIndex,
+            },
+            stateUpdate: {
+              event: "question_start",
+              questionIndex: nextIndex,
+              question: questions[nextIndex],
+              timeLimit: quiz?.time_limit || 15,
+            },
+          }),
+        });
+        setCurrentQuestionIndex(nextIndex);
+        setGame((prev) =>
+          prev ? { ...prev, current_question: nextIndex } : null
+        );
+        setGameState("question");
+        setQuestionStartTime(Date.now());
+      } catch (error) {
+        console.error("Error moving to next question:", error);
+      }
+    } else {
+      endGame();
     }
   };
 
@@ -284,10 +284,30 @@ export default function HostGamePage() {
   if (gameState === "lobby") {
     return (
       <div className="min-h-screen bg-[#FFF9E6] py-4 sm:py-6 md:py-8">
-        <div className="mb-4 sm:mb-6 text-center px-4">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-black">
-            ארח משחק
-          </h1>
+        <div className="mb-4 sm:mb-6 px-4">
+          <button
+            onClick={() => router.push("/quizzes")}
+            className="mb-4 flex items-center gap-2 text-base sm:text-lg font-black text-black hover:opacity-80"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="3"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="w-5 h-5 sm:w-6 sm:h-6"
+            >
+              <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+            חזור
+          </button>
+          <div className="text-center">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-black">
+              ארח משחק
+            </h1>
+          </div>
         </div>
         <GameLobby gameId={gameId} pin={game.pin} onStartGame={startGame} />
       </div>
@@ -357,6 +377,23 @@ export default function HostGamePage() {
               </p>
             </div>
             <Leaderboard entries={leaderboard} />
+            <div className="flex justify-center">
+              {currentQuestionIndex < questions.length - 1 ? (
+                <button
+                  onClick={goToNextQuestion}
+                  className="brutal-button bg-[#4ECDC4] px-6 sm:px-8 py-3 text-base sm:text-lg font-black text-black min-h-[44px]"
+                >
+                  המשך לשאלה הבאה
+                </button>
+              ) : (
+                <button
+                  onClick={endGame}
+                  className="brutal-button bg-[#FF6B9D] px-6 sm:px-8 py-3 text-base sm:text-lg font-black text-black min-h-[44px]"
+                >
+                  סיים משחק
+                </button>
+              )}
+            </div>
           </>
         )}
       </div>

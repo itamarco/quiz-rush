@@ -114,10 +114,6 @@ export default function PlayerGamePage() {
         setTimerRunning(false);
         setPlayerState("results");
         updateLeaderboard();
-
-        setTimeout(() => {
-          setPlayerState("lobby");
-        }, 5000);
         if (isNewEvent) {
           playSound("questionEnd");
         }
