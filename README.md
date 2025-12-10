@@ -7,7 +7,7 @@ A real-time multiplayer quiz game alternative to Kahoot, built with Next.js 14 a
 ## Features
 
 - **Quiz Builder**: Create and edit quizzes with multiple-choice questions
-- **Game Hosting**: Host games with a 6-digit PIN for players to join
+- **Game Hosting**: Host games with a 4-digit PIN for players to join
 - **Real-time Gameplay**: Synchronized question display and answer submission using Firestore real-time listeners
 - **Live Leaderboard**: See top players after each question
 - **Scoring System**: Points based on correctness and speed (1000 max, 500 min for correct answers)
@@ -127,7 +127,7 @@ Firestore collections:
 
 1. **Create a Quiz**: Go to "My Quizzes" and click "Create New Quiz"
 2. **Host a Game**: Select a quiz and click "Host Game"
-3. **Join as Player**: Enter the 6-digit PIN shown on the host screen
+3. **Join as Player**: Enter the 4-digit PIN shown on the host screen
 4. **Play**: Answer questions in real-time and compete on the leaderboard
 
 ## Deployment

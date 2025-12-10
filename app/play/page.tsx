@@ -12,8 +12,8 @@ export default function JoinGamePage() {
     e.preventDefault();
     setError("");
 
-    if (pin.length !== 6 || !/^\d+$/.test(pin)) {
-      setError("אנא הזן קוד PIN בן 6 ספרות תקין");
+    if (pin.length !== 4 || !/^\d+$/.test(pin)) {
+      setError("אנא הזן קוד PIN בן 4 ספרות תקין");
       return;
     }
 
@@ -48,13 +48,13 @@ export default function JoinGamePage() {
               type="text"
               value={pin}
               onChange={(e) => {
-                const value = e.target.value.replace(/\D/g, "").slice(0, 6);
+                const value = e.target.value.replace(/\D/g, "").slice(0, 4);
                 setPin(value);
                 setError("");
               }}
               className="brutal-input w-full bg-white px-4 py-3 text-center text-2xl sm:text-3xl font-black tracking-widest text-black min-h-[60px]"
-              placeholder="000000"
-              maxLength={6}
+              placeholder="0000"
+              maxLength={4}
               autoFocus
             />
           </div>

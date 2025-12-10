@@ -178,7 +178,7 @@ test.describe("Quiz Rush - Full Game Flow", () => {
       const pinElement = hostPage.locator(".font-mono.text-7xl");
       await expect(pinElement).toBeVisible();
       const gamePin = await pinElement.textContent();
-      expect(gamePin).toMatch(/^\d{6}$/);
+      expect(gamePin).toMatch(/^\d{4}$/);
       console.log(`Game PIN: ${gamePin}`);
 
       // ===============================
