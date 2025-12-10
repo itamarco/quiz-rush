@@ -294,12 +294,15 @@ export default function PlayerGamePage() {
   if (playerState === "nickname") {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#FFF9E6] p-4">
-        <div className="brutal-card w-full max-w-md bg-[#FFE66D] p-8">
-          <h1 className="mb-6 text-center text-4xl font-black text-black">
+        <div className="brutal-card w-full max-w-md bg-[#FFE66D] p-4 sm:p-6 md:p-8">
+          <h1 className="mb-4 sm:mb-6 text-center text-2xl sm:text-3xl md:text-4xl font-black text-black">
             הזן את הכינוי שלך
           </h1>
 
-          <form onSubmit={handleNicknameSubmit} className="space-y-6">
+          <form
+            onSubmit={handleNicknameSubmit}
+            className="space-y-4 sm:space-y-6"
+          >
             <div>
               <label
                 htmlFor="nickname"
@@ -312,7 +315,7 @@ export default function PlayerGamePage() {
                 type="text"
                 value={nickname}
                 onChange={(e) => setNickname(e.target.value)}
-                className="brutal-input w-full bg-white px-4 py-3 text-black"
+                className="brutal-input w-full bg-white px-4 py-3 text-black min-h-[44px] text-base"
                 placeholder="הזן את הכינוי שלך"
                 maxLength={20}
                 autoFocus
@@ -321,7 +324,7 @@ export default function PlayerGamePage() {
 
             <button
               type="submit"
-              className="brutal-button w-full bg-[#4ECDC4] px-4 py-3 font-black text-black"
+              className="brutal-button w-full bg-[#4ECDC4] px-4 py-3 font-black text-black min-h-[44px] text-base sm:text-lg"
             >
               הצטרף למשחק
             </button>
@@ -334,11 +337,11 @@ export default function PlayerGamePage() {
   if (playerState === "lobby") {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#FFF9E6] p-4">
-        <div className="brutal-card w-full max-w-md bg-[#95E1D3] p-8 text-center">
-          <h2 className="mb-4 text-3xl font-black text-black">
+        <div className="brutal-card w-full max-w-md bg-[#95E1D3] p-4 sm:p-6 md:p-8 text-center">
+          <h2 className="mb-4 text-xl sm:text-2xl md:text-3xl font-black text-black">
             ממתין שהמשחק יתחיל...
           </h2>
-          <p className="text-lg font-bold text-black">
+          <p className="text-base sm:text-lg font-bold text-black">
             המארח יתחיל את החידון בקרוב
           </p>
         </div>
@@ -348,16 +351,16 @@ export default function PlayerGamePage() {
 
   if (playerState === "finished") {
     return (
-      <div className="min-h-screen bg-[#FFF9E6] py-8">
-        <div className="mx-auto max-w-2xl space-y-6 p-6">
-          <h2 className="text-center text-4xl font-black text-black">
+      <div className="min-h-screen bg-[#FFF9E6] py-4 sm:py-6 md:py-8">
+        <div className="mx-auto max-w-2xl space-y-4 sm:space-y-6 p-4 sm:p-6">
+          <h2 className="text-center text-2xl sm:text-3xl md:text-4xl font-black text-black">
             המשחק הסתיים!
           </h2>
           <Leaderboard entries={leaderboard} maxDisplay={10} />
           <div className="flex justify-center">
             <button
               onClick={() => router.push("/")}
-              className="brutal-button bg-[#FF6B9D] px-8 py-3 text-lg font-black text-black"
+              className="brutal-button bg-[#FF6B9D] px-6 sm:px-8 py-3 text-base sm:text-lg font-black text-black min-h-[44px]"
             >
               חזור לדף הבית
             </button>
@@ -376,8 +379,8 @@ export default function PlayerGamePage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FFF9E6] py-8">
-      <div className="mx-auto max-w-2xl space-y-6 p-6">
+    <div className="min-h-screen bg-[#FFF9E6] py-4 sm:py-6 md:py-8">
+      <div className="mx-auto max-w-2xl space-y-4 sm:space-y-6 p-4 sm:p-6">
         {playerState === "question" && (
           <>
             <Timer
@@ -392,12 +395,12 @@ export default function PlayerGamePage() {
               startTime={questionStartTime}
             />
 
-            <div className="brutal-card bg-[#FFF9E6] p-6">
+            <div className="brutal-card bg-[#FFF9E6] p-4 sm:p-6">
               <div className="mb-4 text-center">
                 <div className="mb-2 text-sm font-bold text-black">
                   שאלה {questionIndex + 1}
                 </div>
-                <h2 className="text-3xl font-black text-black">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-black px-2">
                   {currentQuestion.text}
                 </h2>
               </div>
@@ -411,7 +414,7 @@ export default function PlayerGamePage() {
             </div>
 
             {answerSubmitted && (
-              <div className="brutal-border bg-[#95E1D3] p-4 text-center text-lg font-black text-black">
+              <div className="brutal-border bg-[#95E1D3] p-3 sm:p-4 text-center text-base sm:text-lg font-black text-black">
                 התשובה נשלחה!
               </div>
             )}
@@ -420,8 +423,8 @@ export default function PlayerGamePage() {
 
         {playerState === "results" && (
           <>
-            <div className="brutal-card bg-[#FFF9E6] p-6">
-              <h3 className="mb-4 text-center text-3xl font-black text-black">
+            <div className="brutal-card bg-[#FFF9E6] p-4 sm:p-6">
+              <h3 className="mb-4 text-center text-xl sm:text-2xl md:text-3xl font-black text-black">
                 {selectedAnswer === correctIndex ? "נכון! 🎉" : "תשובה שגויה"}
               </h3>
               <AnswerButtons

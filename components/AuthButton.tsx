@@ -52,13 +52,13 @@ export default function AuthButton() {
 
   if (user) {
     return (
-      <div className="flex items-center gap-4">
-        <span className="text-sm font-bold text-black">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
+        <span className="text-xs sm:text-sm font-bold text-black truncate max-w-[120px] sm:max-w-none">
           {user.displayName || user.email}
         </span>
         <button
           onClick={handleLogout}
-          className="brutal-button bg-[#FF6B6B] px-4 py-2 text-sm text-black"
+          className="brutal-button bg-[#FF6B6B] px-3 sm:px-4 py-2 text-xs sm:text-sm text-black min-h-[36px] sm:min-h-[44px] w-full sm:w-auto"
         >
           התנתק
         </button>
@@ -68,16 +68,16 @@ export default function AuthButton() {
 
   return (
     <>
-      <div className="flex items-center gap-3">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
         <button
           onClick={() => setShowAuthModal(true)}
-          className="brutal-button bg-[#FFE66D] px-4 py-2 text-sm text-black"
+          className="brutal-button bg-[#FFE66D] px-3 sm:px-4 py-2 text-xs sm:text-sm text-black min-h-[36px] sm:min-h-[44px]"
         >
           התחבר עם אימייל
         </button>
         <button
           onClick={handleLogin}
-          className="brutal-button bg-[#4ECDC4] px-4 py-2 text-sm text-black"
+          className="brutal-button bg-[#4ECDC4] px-3 sm:px-4 py-2 text-xs sm:text-sm text-black min-h-[36px] sm:min-h-[44px]"
         >
           התחבר עם Google
         </button>

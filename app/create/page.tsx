@@ -174,10 +174,10 @@ function CreateQuizContent() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FFF9E6] py-8">
-      <div className="mx-auto max-w-4xl px-6">
-        <div className="mb-6 flex items-center justify-between">
-          <h1 className="text-4xl font-black text-black">
+    <div className="min-h-screen bg-[#FFF9E6] py-4 sm:py-6 md:py-8">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6">
+        <div className="mb-4 sm:mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-black">
             {editId ? "ערוך חידון" : "צור חידון"}
           </h1>
           <AuthButton />

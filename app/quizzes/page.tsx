@@ -174,14 +174,16 @@ export default function QuizzesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FFF9E6] py-8">
-      <div className="mx-auto max-w-4xl space-y-6 p-6">
-        <div className="flex items-center justify-between">
-          <h1 className="text-4xl font-black text-black">החידונים שלי</h1>
-          <div className="flex items-center gap-4">
+    <div className="min-h-screen bg-[#FFF9E6] py-4 sm:py-6 md:py-8">
+      <div className="mx-auto max-w-4xl space-y-4 sm:space-y-6 p-4 sm:p-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-black">
+            החידונים שלי
+          </h1>
+          <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto">
             <Link
               href="/create"
-              className="brutal-button bg-[#FF6B9D] px-6 py-2 font-black text-black"
+              className="brutal-button bg-[#FF6B9D] px-4 sm:px-6 py-2 text-sm sm:text-base font-black text-black min-h-[44px] flex items-center justify-center flex-1 sm:flex-none"
             >
               צור חידון חדש
             </Link>
@@ -190,48 +192,51 @@ export default function QuizzesPage() {
         </div>
 
         {quizzes.length === 0 ? (
-          <div className="brutal-card bg-[#FFE66D] p-12 text-center">
-            <p className="mb-4 text-xl font-black text-black">
+          <div className="brutal-card bg-[#FFE66D] p-6 sm:p-8 md:p-12 text-center">
+            <p className="mb-4 text-lg sm:text-xl font-black text-black">
               אין חידונים עדיין. צור את החידון הראשון שלך!
             </p>
             <Link
               href="/create"
-              className="brutal-button inline-block bg-[#4ECDC4] px-6 py-2 font-black text-black"
+              className="brutal-button inline-block bg-[#4ECDC4] px-5 sm:px-6 py-2 text-sm sm:text-base font-black text-black min-h-[44px]"
             >
               צור חידון
             </Link>
           </div>
         ) : (
-          <div className="grid gap-6 sm:grid-cols-2">
+          <div className="grid gap-4 sm:gap-6 sm:grid-cols-2">
             {quizzes.map((quiz) => (
-              <div key={quiz.id} className="brutal-card bg-[#FFF9E6] p-6">
-                <h2 className="mb-2 text-2xl font-black text-black">
+              <div
+                key={quiz.id}
+                className="brutal-card bg-[#FFF9E6] p-4 sm:p-6"
+              >
+                <h2 className="mb-2 text-xl sm:text-2xl font-black text-black break-words">
                   {quiz.title}
                 </h2>
                 {quiz.description && (
-                  <p className="mb-4 text-sm font-bold text-black">
+                  <p className="mb-3 sm:mb-4 text-xs sm:text-sm font-bold text-black break-words">
                     {quiz.description}
                   </p>
                 )}
-                <div className="mb-4 text-sm font-bold text-black">
+                <div className="mb-3 sm:mb-4 text-xs sm:text-sm font-bold text-black">
                   מגבלת זמן: {quiz.time_limit} שניות לשאלה
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <button
                     onClick={() => handleStartGame(quiz.id)}
-                    className="brutal-button flex-1 bg-[#4ECDC4] px-4 py-2 text-sm font-black text-black"
+                    className="brutal-button flex-1 bg-[#4ECDC4] px-3 sm:px-4 py-2 text-xs sm:text-sm font-black text-black min-h-[44px]"
                   >
                     ארח משחק
                   </button>
                   <Link
                     href={`/create?edit=${quiz.id}`}
-                    className="brutal-button bg-[#FFE66D] px-4 py-2 text-sm font-black text-black"
+                    className="brutal-button bg-[#FFE66D] px-3 sm:px-4 py-2 text-xs sm:text-sm font-black text-black min-h-[44px] flex items-center justify-center"
                   >
                     ערוך
                   </Link>
                   <button
                     onClick={() => handleDelete(quiz.id)}
-                    className="brutal-button bg-[#FF6B6B] px-4 py-2 text-sm font-black text-black"
+                    className="brutal-button bg-[#FF6B6B] px-3 sm:px-4 py-2 text-xs sm:text-sm font-black text-black min-h-[44px]"
                   >
                     מחק
                   </button>

@@ -283,9 +283,11 @@ export default function HostGamePage() {
 
   if (gameState === "lobby") {
     return (
-      <div className="min-h-screen bg-[#FFF9E6] py-8">
-        <div className="mb-6 text-center">
-          <h1 className="text-4xl font-black text-black">ארח משחק</h1>
+      <div className="min-h-screen bg-[#FFF9E6] py-4 sm:py-6 md:py-8">
+        <div className="mb-4 sm:mb-6 text-center px-4">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-black">
+            ארח משחק
+          </h1>
         </div>
         <GameLobby gameId={gameId} pin={game.pin} onStartGame={startGame} />
       </div>
@@ -294,16 +296,16 @@ export default function HostGamePage() {
 
   if (gameState === "finished") {
     return (
-      <div className="min-h-screen bg-[#FFF9E6] py-8">
-        <div className="mx-auto max-w-2xl space-y-6 p-6">
-          <h2 className="text-center text-4xl font-black text-black">
+      <div className="min-h-screen bg-[#FFF9E6] py-4 sm:py-6 md:py-8">
+        <div className="mx-auto max-w-2xl space-y-4 sm:space-y-6 p-4 sm:p-6">
+          <h2 className="text-center text-2xl sm:text-3xl md:text-4xl font-black text-black">
             המשחק הסתיים!
           </h2>
           <Leaderboard entries={leaderboard} maxDisplay={10} />
           <div className="flex justify-center">
             <button
               onClick={() => router.push("/")}
-              className="brutal-button bg-[#FF6B9D] px-8 py-3 text-lg font-black text-black"
+              className="brutal-button bg-[#FF6B9D] px-6 sm:px-8 py-3 text-base sm:text-lg font-black text-black min-h-[44px]"
             >
               חזור לדף הבית
             </button>
@@ -316,8 +318,8 @@ export default function HostGamePage() {
   const currentQuestion = questions[currentQuestionIndex];
 
   return (
-    <div className="min-h-screen bg-[#FFF9E6] py-8">
-      <div className="mx-auto max-w-4xl space-y-6 p-6">
+    <div className="min-h-screen bg-[#FFF9E6] py-4 sm:py-6 md:py-8">
+      <div className="mx-auto max-w-4xl space-y-4 sm:space-y-6 p-4 sm:p-6">
         {gameState === "question" && (
           <>
             <Timer
@@ -334,7 +336,7 @@ export default function HostGamePage() {
             <div className="flex justify-center">
               <button
                 onClick={handleTimerComplete}
-                className="brutal-button bg-[#FF6B6B] px-6 py-2 font-black text-black"
+                className="brutal-button bg-[#FF6B6B] px-5 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-black text-black min-h-[44px]"
               >
                 סיים שאלה מוקדם
               </button>
@@ -344,11 +346,11 @@ export default function HostGamePage() {
 
         {gameState === "results" && (
           <>
-            <div className="brutal-card bg-[#95E1D3] p-6 text-center">
-              <h3 className="mb-2 text-3xl font-black text-black">
+            <div className="brutal-card bg-[#95E1D3] p-4 sm:p-6 text-center">
+              <h3 className="mb-2 text-xl sm:text-2xl md:text-3xl font-black text-black">
                 הזמן נגמר!
               </h3>
-              <p className="text-xl font-black text-black">
+              <p className="text-base sm:text-lg md:text-xl font-black text-black break-words px-2">
                 תשובה נכונה:{" "}
                 {String.fromCharCode(65 + currentQuestion.correct_index)} -{" "}
                 {currentQuestion.options[currentQuestion.correct_index]}

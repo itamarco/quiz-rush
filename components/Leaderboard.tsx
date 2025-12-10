@@ -40,27 +40,31 @@ export default function Leaderboard({
   }, [entries.length, playSound]);
 
   return (
-    <div className="brutal-card bg-[#FFF9E6] p-6">
-      <h3 className="mb-4 text-2xl font-black text-black">לוח תוצאות</h3>
+    <div className="brutal-card bg-[#FFF9E6] p-4 sm:p-6">
+      <h3 className="mb-3 sm:mb-4 text-xl sm:text-2xl font-black text-black">
+        לוח תוצאות
+      </h3>
       {displayEntries.length === 0 ? (
-        <p className="text-lg font-bold text-black">אין ניקוד עדיין</p>
+        <p className="text-base sm:text-lg font-bold text-black">
+          אין ניקוד עדיין
+        </p>
       ) : (
-        <ul className="space-y-3">
+        <ul className="space-y-2 sm:space-y-3">
           {displayEntries.map((entry) => (
             <li
               key={entry.player_id}
-              className="brutal-border flex items-center justify-between p-4"
+              className="brutal-border flex items-center justify-between p-3 sm:p-4 gap-2 sm:gap-4"
               style={{ backgroundColor: getRankColor(entry.rank) }}
             >
-              <div className="flex items-center gap-3">
-                <span className="text-xl font-black">
+              <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+                <span className="text-lg sm:text-xl font-black flex-shrink-0">
                   {getRankIcon(entry.rank)}
                 </span>
-                <span className="text-lg font-black text-black">
+                <span className="text-base sm:text-lg font-black text-black truncate">
                   {entry.nickname}
                 </span>
               </div>
-              <span className="text-lg font-black text-black">
+              <span className="text-base sm:text-lg font-black text-black flex-shrink-0 whitespace-nowrap">
                 {entry.score} נקודות
               </span>
             </li>

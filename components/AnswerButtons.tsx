@@ -32,7 +32,7 @@ export default function AnswerButtons({
   };
 
   return (
-    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+    <div className="grid grid-cols-1 gap-3 sm:gap-4 md:gap-6 sm:grid-cols-2">
       {options.map((option, index) => {
         const color = getButtonColor(index);
         return (
@@ -40,15 +40,17 @@ export default function AnswerButtons({
             key={index}
             onClick={() => !disabled && onAnswer(index)}
             disabled={disabled}
-            className={`brutal-button p-6 text-start ${
+            className={`brutal-button p-4 sm:p-5 md:p-6 text-start min-h-[60px] sm:min-h-[80px] ${
               disabled ? "cursor-not-allowed opacity-75" : "cursor-pointer"
             }`}
             style={{ backgroundColor: color.bg }}
           >
-            <div className="mb-2 text-sm font-black">
+            <div className="mb-1 sm:mb-2 text-xs sm:text-sm font-black">
               {String.fromCharCode(65 + index)}
             </div>
-            <div className="text-lg font-bold text-black">{option}</div>
+            <div className="text-base sm:text-lg font-bold text-black break-words">
+              {option}
+            </div>
           </button>
         );
       })}

@@ -15,6 +15,12 @@ export const metadata: Metadata = {
   description: "A real-time multiplayer quiz game alternative to Kahoot",
 };
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{

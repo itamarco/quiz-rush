@@ -69,3 +69,35 @@ body {
   border: 4px solid var(--brutal-border);
   box-shadow: 8px 8px 0px 0px var(--brutal-border);
 }
+
+@media (max-width: 640px) {
+  .brutal-card {
+    box-shadow: 4px 4px 0px 0px var(--brutal-border);
+  }
+
+  .brutal-button {
+    box-shadow: 4px 4px 0px 0px var(--brutal-border);
+  }
+
+  .brutal-input {
+    box-shadow: 3px 3px 0px 0px var(--brutal-border);
+  }
+}
+
+input,
+textarea,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+* {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+input,
+textarea {
+  -webkit-user-select: text;
+  user-select: text;
+}

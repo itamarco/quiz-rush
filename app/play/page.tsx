@@ -30,12 +30,12 @@ export default function JoinGamePage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#FFF9E6] p-4">
-      <div className="brutal-card w-full max-w-md bg-[#FFE66D] p-8">
-        <h1 className="mb-6 text-center text-4xl font-black text-black">
+      <div className="brutal-card w-full max-w-md bg-[#FFE66D] p-4 sm:p-6 md:p-8">
+        <h1 className="mb-4 sm:mb-6 text-center text-2xl sm:text-3xl md:text-4xl font-black text-black">
           הצטרף למשחק
         </h1>
 
-        <form onSubmit={handleJoin} className="space-y-6">
+        <form onSubmit={handleJoin} className="space-y-4 sm:space-y-6">
           <div>
             <label
               htmlFor="pin"
@@ -52,7 +52,7 @@ export default function JoinGamePage() {
                 setPin(value);
                 setError("");
               }}
-              className="brutal-input w-full bg-white px-4 py-3 text-center text-3xl font-black tracking-widest text-black"
+              className="brutal-input w-full bg-white px-4 py-3 text-center text-2xl sm:text-3xl font-black tracking-widest text-black min-h-[60px]"
               placeholder="000000"
               maxLength={6}
               autoFocus
@@ -67,7 +67,7 @@ export default function JoinGamePage() {
 
           <button
             type="submit"
-            className="brutal-button w-full bg-[#4ECDC4] px-4 py-3 font-black text-black"
+            className="brutal-button w-full bg-[#4ECDC4] px-4 py-3 font-black text-black min-h-[44px] text-base sm:text-lg"
           >
             הצטרף למשחק
           </button>

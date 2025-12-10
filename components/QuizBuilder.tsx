@@ -109,8 +109,8 @@ export default function QuizBuilder({
   };
 
   return (
-    <div className="mx-auto max-w-4xl space-y-6 p-6">
-      <div className="space-y-4">
+    <div className="mx-auto max-w-4xl space-y-4 sm:space-y-6 p-4 sm:p-6">
+      <div className="space-y-3 sm:space-y-4">
         <div>
           <label className="block text-sm font-bold text-black mb-2">
             כותרת החידון
@@ -119,7 +119,7 @@ export default function QuizBuilder({
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="brutal-input w-full bg-white px-3 py-2 text-black"
+            className="brutal-input w-full bg-white px-3 py-2 text-black min-h-[44px] text-base"
             placeholder="הזן כותרת לחידון"
           />
         </div>
@@ -131,7 +131,7 @@ export default function QuizBuilder({
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="brutal-input w-full bg-white px-3 py-2 text-black"
+            className="brutal-input w-full bg-white px-3 py-2 text-black text-base"
             placeholder="הזן תיאור לחידון"
             rows={3}
           />
@@ -147,46 +147,46 @@ export default function QuizBuilder({
             max="60"
             value={timeLimit}
             onChange={(e) => setTimeLimit(parseInt(e.target.value) || 15)}
-            className="brutal-input w-full bg-white px-3 py-2 text-black"
+            className="brutal-input w-full bg-white px-3 py-2 text-black min-h-[44px] text-base"
           />
         </div>
       </div>
 
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-black text-black">שאלות</h2>
+      <div className="space-y-3 sm:space-y-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+          <h2 className="text-xl sm:text-2xl font-black text-black">שאלות</h2>
           <button
             onClick={addQuestion}
-            className="brutal-button bg-[#4ECDC4] px-4 py-2 font-black text-black"
+            className="brutal-button bg-[#4ECDC4] px-4 py-2 text-sm sm:text-base font-black text-black min-h-[44px] w-full sm:w-auto"
           >
             הוסף שאלה
           </button>
         </div>
 
         {questions.map((question, qIndex) => (
-          <div key={qIndex} className="brutal-card bg-[#FFF9E6] p-4">
-            <div className="mb-4 flex items-center justify-between">
-              <h3 className="text-lg font-black text-black">
+          <div key={qIndex} className="brutal-card bg-[#FFF9E6] p-3 sm:p-4">
+            <div className="mb-3 sm:mb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+              <h3 className="text-base sm:text-lg font-black text-black">
                 שאלה {qIndex + 1}
               </h3>
               {questions.length > 1 && (
                 <button
                   onClick={() => removeQuestion(qIndex)}
-                  className="brutal-button bg-[#FF6B6B] px-3 py-1 text-sm font-black text-black"
+                  className="brutal-button bg-[#FF6B6B] px-3 py-1 text-xs sm:text-sm font-black text-black min-h-[36px] w-full sm:w-auto"
                 >
                   מחק
                 </button>
               )}
             </div>
 
-            <div className="mb-4">
+            <div className="mb-3 sm:mb-4">
               <label className="block text-sm font-bold text-black mb-2">
                 טקסט השאלה
               </label>
               <textarea
                 value={question.text}
                 onChange={(e) => updateQuestion(qIndex, "text", e.target.value)}
-                className="brutal-input w-full bg-white px-3 py-2 text-black"
+                className="brutal-input w-full bg-white px-3 py-2 text-black text-base"
                 placeholder="הזן את השאלה שלך"
                 rows={2}
               />
@@ -205,7 +205,7 @@ export default function QuizBuilder({
                     onChange={() =>
                       updateQuestion(qIndex, "correct_index", oIndex)
                     }
-                    className="h-5 w-5"
+                    className="h-5 w-5 flex-shrink-0"
                   />
                   <input
                     type="text"
@@ -213,7 +213,7 @@ export default function QuizBuilder({
                     onChange={(e) =>
                       updateQuestion(qIndex, `option_${oIndex}`, e.target.value)
                     }
-                    className="brutal-input flex-1 bg-white px-3 py-2 text-black"
+                    className="brutal-input flex-1 bg-white px-3 py-2 text-black min-h-[44px] text-base"
                     placeholder={`אפשרות ${String.fromCharCode(65 + oIndex)}`}
                   />
                 </div>
@@ -223,11 +223,11 @@ export default function QuizBuilder({
         ))}
       </div>
 
-      <div className="flex justify-end gap-4">
+      <div className="flex justify-end gap-3 sm:gap-4">
         <button
           onClick={handleSave}
           disabled={saving}
-          className="brutal-button bg-[#FF6B9D] px-6 py-2 font-black text-black disabled:opacity-50"
+          className="brutal-button bg-[#FF6B9D] px-5 sm:px-6 py-2 text-sm sm:text-base font-black text-black disabled:opacity-50 min-h-[44px] w-full sm:w-auto"
         >
           {saving ? "שומר..." : quiz ? "עדכן חידון" : "צור חידון"}
         </button>
