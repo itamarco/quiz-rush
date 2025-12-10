@@ -17,6 +17,7 @@ import Leaderboard from "@/components/Leaderboard";
 import { Game, Question, LeaderboardEntry } from "@/types";
 import { logger } from "@/lib/logger-client";
 import { useSound } from "@/contexts/SoundContext";
+import { useBackgroundMusic } from "@/hooks/useBackgroundMusic";
 
 type GameState = "lobby" | "question" | "results" | "finished";
 
@@ -35,6 +36,14 @@ export default function HostGamePage() {
   const [questionStartTime, setQuestionStartTime] = useState<number | null>(
     null
   );
+
+  const musicType =
+    gameState === "lobby" || gameState === "finished" || gameState === "results"
+      ? "lobby"
+      : gameState === "question"
+      ? "round"
+      : null;
+  useBackgroundMusic(musicType);
 
   useEffect(() => {
     const loadGame = async () => {
