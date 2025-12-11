@@ -38,7 +38,7 @@ export default function HostGamePage() {
   );
 
   const musicType =
-    gameState === "lobby" || gameState === "finished" || gameState === "results"
+    gameState === "lobby" || gameState === "finished"
       ? "lobby"
       : gameState === "question"
       ? "round"
@@ -205,7 +205,6 @@ export default function HostGamePage() {
       setGameState("results");
       updateLeaderboard();
       playSound("questionEnd");
-      playSound("leaderboard");
     } catch (error) {
       console.error("Error completing question:", error);
     }
@@ -268,8 +267,6 @@ export default function HostGamePage() {
   useEffect(() => {
     if (gameState === "question") {
       playSound("questionStart");
-    } else if (gameState === "finished") {
-      playSound("leaderboard");
     }
   }, [gameState, playSound]);
 
@@ -321,7 +318,7 @@ export default function HostGamePage() {
           <h2 className="text-center text-2xl sm:text-3xl md:text-4xl font-black text-black">
             המשחק הסתיים!
           </h2>
-          <Leaderboard entries={leaderboard} maxDisplay={10} />
+          <Leaderboard entries={leaderboard} maxDisplay={10} isFinal={true} />
           <div className="flex justify-center">
             <button
               onClick={() => router.push("/")}
@@ -376,7 +373,7 @@ export default function HostGamePage() {
                 {currentQuestion.options[currentQuestion.correct_index]}
               </p>
             </div>
-            <Leaderboard entries={leaderboard} />
+            <Leaderboard entries={leaderboard} isFinal={false} />
             <div className="flex justify-center">
               {currentQuestionIndex < questions.length - 1 ? (
                 <button

@@ -2,42 +2,70 @@
 
 import { useEffect, useRef } from "react";
 import { LeaderboardEntry } from "@/types";
-import { useSound } from "@/contexts/SoundContext";
 
 interface LeaderboardProps {
   entries: LeaderboardEntry[];
   maxDisplay?: number;
+  isFinal?: boolean;
 }
+
+const RANK_COLORS: Record<number, string> = {
+  1: "#FFE66D",
+  2: "#C7CEEA",
+  3: "#FFB347",
+};
+
+const RANK_ICONS: Record<number, string> = {
+  1: "🥇",
+  2: "🥈",
+  3: "🥉",
+};
+
+const stopAudio = (audio: HTMLAudioElement | null) => {
+  if (!audio) return;
+  audio.pause();
+  audio.currentTime = 0;
+};
+
+const startLeaderboardMusic = (): HTMLAudioElement => {
+  const audio = new Audio("/sounds/leaderboard.mp3");
+  audio.loop = true;
+  audio.volume = 0.6;
+  audio.play().catch((error) => {
+    console.warn("Failed to play leaderboard music:", error);
+  });
+  return audio;
+};
 
 export default function Leaderboard({
   entries,
   maxDisplay = 5,
+  isFinal = false,
 }: LeaderboardProps) {
-  const { playSound } = useSound();
-  const previousCountRef = useRef(0);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const displayEntries = entries.slice(0, maxDisplay);
 
-  const getRankColor = (rank: number) => {
-    if (rank === 1) return "#FFE66D";
-    if (rank === 2) return "#C7CEEA";
-    if (rank === 3) return "#FFB347";
-    return "#FFF9E6";
-  };
-
-  const getRankIcon = (rank: number) => {
-    if (rank === 1) return "🥇";
-    if (rank === 2) return "🥈";
-    if (rank === 3) return "🥉";
-    return `${rank}.`;
-  };
+  const getRankColor = (rank: number) => RANK_COLORS[rank] || "#FFF9E6";
+  const getRankIcon = (rank: number) => RANK_ICONS[rank] || `${rank}.`;
 
   useEffect(() => {
-    if (entries.length === 0) return;
-    if (previousCountRef.current !== entries.length) {
-      playSound("leaderboard");
+    const shouldPlay = !isFinal && entries.length > 0;
+
+    if (!shouldPlay) {
+      stopAudio(audioRef.current);
+      audioRef.current = null;
+      return;
     }
-    previousCountRef.current = entries.length;
-  }, [entries.length, playSound]);
+
+    if (!audioRef.current) {
+      audioRef.current = startLeaderboardMusic();
+    }
+
+    return () => {
+      stopAudio(audioRef.current);
+      audioRef.current = null;
+    };
+  }, [isFinal, entries.length]);
 
   return (
     <div className="brutal-card bg-[#FFF9E6] p-4 sm:p-6">

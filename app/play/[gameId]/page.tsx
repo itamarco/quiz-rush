@@ -279,13 +279,7 @@ export default function PlayerGamePage() {
 
     const correct = selectedAnswer === correctIndex;
     playSound(correct ? "correctAnswer" : "incorrectAnswer");
-    playSound("leaderboard");
   }, [playerState, showCorrect, selectedAnswer, correctIndex, playSound]);
-
-  useEffect(() => {
-    if (playerState !== "finished") return;
-    playSound("leaderboard");
-  }, [playerState, playSound]);
 
   if (playerState === "nickname") {
     return (
@@ -352,7 +346,7 @@ export default function PlayerGamePage() {
           <h2 className="text-center text-2xl sm:text-3xl md:text-4xl font-black text-black">
             המשחק הסתיים!
           </h2>
-          <Leaderboard entries={leaderboard} maxDisplay={10} />
+          <Leaderboard entries={leaderboard} maxDisplay={10} isFinal={true} />
           <div className="flex justify-center">
             <button
               onClick={() => router.push("/")}
@@ -432,7 +426,7 @@ export default function PlayerGamePage() {
                 correctIndex={correctIndex}
               />
             </div>
-            <Leaderboard entries={leaderboard} />
+            <Leaderboard entries={leaderboard} isFinal={false} />
           </>
         )}
       </div>

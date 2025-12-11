@@ -29,7 +29,7 @@ const soundFiles: Record<SoundKey, string> = {
   questionEnd: "/sounds/ui-question-end.wav",
   correctAnswer: "/sounds/ui-correct.wav",
   incorrectAnswer: "/sounds/ui-incorrect.wav",
-  leaderboard: "/sounds/ui-leaderboard.wav",
+  leaderboard: "/sounds/leaderboard.mp3",
   gameStart: "/sounds/ui-game-start.wav",
   timerTick: "/sounds/ui-timer-tick.wav",
 };
