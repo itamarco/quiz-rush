@@ -155,12 +155,6 @@ export default function QuizBuilder({
       <div className="space-y-3 sm:space-y-4">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
           <h2 className="text-xl sm:text-2xl font-black text-black">שאלות</h2>
-          <button
-            onClick={addQuestion}
-            className="brutal-button bg-[#4ECDC4] px-4 py-2 text-sm sm:text-base font-black text-black min-h-[44px] w-full sm:w-auto"
-          >
-            הוסף שאלה
-          </button>
         </div>
 
         {questions.map((question, qIndex) => (
@@ -221,6 +215,15 @@ export default function QuizBuilder({
             </div>
           </div>
         ))}
+
+        <div className="flex justify-end">
+          <button
+            onClick={addQuestion}
+            className="brutal-button bg-[#4ECDC4] px-4 py-2 text-sm sm:text-base font-black text-black min-h-[44px] w-full sm:w-auto"
+          >
+            הוסף שאלה
+          </button>
+        </div>
       </div>
 
       <div className="flex justify-end gap-3 sm:gap-4">
