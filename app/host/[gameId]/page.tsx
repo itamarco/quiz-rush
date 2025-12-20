@@ -373,7 +373,11 @@ export default function HostGamePage() {
                 {currentQuestion.options[currentQuestion.correct_index]}
               </p>
             </div>
-            <Leaderboard entries={leaderboard} isFinal={false} />
+            <Leaderboard
+              entries={leaderboard}
+              isFinal={false}
+              enableMusic={true}
+            />
             <div className="flex justify-center">
               {currentQuestionIndex < questions.length - 1 ? (
                 <button

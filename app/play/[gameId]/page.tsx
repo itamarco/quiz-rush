@@ -413,20 +413,32 @@ export default function PlayerGamePage() {
 
         {playerState === "results" && (
           <>
-            <div className="brutal-card bg-[#FFF9E6] p-4 sm:p-6">
-              <h3 className="mb-4 text-center text-xl sm:text-2xl md:text-3xl font-black text-black">
-                {selectedAnswer === correctIndex ? "נכון! 🎉" : "תשובה שגויה"}
-              </h3>
-              <AnswerButtons
-                options={currentQuestion.options}
-                onAnswer={() => {}}
-                disabled={true}
-                selectedAnswer={selectedAnswer}
-                showCorrect={true}
-                correctIndex={correctIndex}
-              />
-            </div>
-            <Leaderboard entries={leaderboard} isFinal={false} />
+            <Leaderboard
+              entries={leaderboard}
+              isFinal={false}
+              correctAnswerLabel={
+                currentQuestion &&
+                typeof correctIndex === "number" &&
+                correctIndex >= 0 &&
+                correctIndex < currentQuestion.options.length
+                  ? `תשובה נכונה: ${String.fromCharCode(65 + correctIndex)} - ${
+                      currentQuestion.options[correctIndex]
+                    }`
+                  : undefined
+              }
+              participantAnswerLabel={
+                currentQuestion &&
+                selectedAnswer !== null &&
+                typeof selectedAnswer === "number" &&
+                selectedAnswer !== correctIndex &&
+                selectedAnswer >= 0 &&
+                selectedAnswer < currentQuestion.options.length
+                  ? `התשובה שלך: ${String.fromCharCode(
+                      65 + selectedAnswer
+                    )} - ${currentQuestion.options[selectedAnswer]}`
+                  : undefined
+              }
+            />
           </>
         )}
       </div>

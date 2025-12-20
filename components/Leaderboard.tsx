@@ -7,6 +7,9 @@ interface LeaderboardProps {
   entries: LeaderboardEntry[];
   maxDisplay?: number;
   isFinal?: boolean;
+  enableMusic?: boolean;
+  correctAnswerLabel?: string;
+  participantAnswerLabel?: string;
 }
 
 const RANK_COLORS: Record<number, string> = {
@@ -27,10 +30,11 @@ const stopAudio = (audio: HTMLAudioElement | null) => {
   audio.currentTime = 0;
 };
 
-const startLeaderboardMusic = (): HTMLAudioElement => {
-  const audio = new Audio("/sounds/leaderboard.mp3");
-  audio.loop = true;
+const startLeaderboardMusic = (onEnded: () => void): HTMLAudioElement => {
+  const audio = new Audio("/sounds/applause.mp3");
+  audio.loop = false;
   audio.volume = 0.6;
+  audio.addEventListener("ended", onEnded, { once: true });
   audio.play().catch((error) => {
     console.warn("Failed to play leaderboard music:", error);
   });
@@ -41,6 +45,9 @@ export default function Leaderboard({
   entries,
   maxDisplay = 5,
   isFinal = false,
+  enableMusic = false,
+  correctAnswerLabel,
+  participantAnswerLabel,
 }: LeaderboardProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const displayEntries = entries.slice(0, maxDisplay);
@@ -49,7 +56,7 @@ export default function Leaderboard({
   const getRankIcon = (rank: number) => RANK_ICONS[rank] || `${rank}.`;
 
   useEffect(() => {
-    const shouldPlay = !isFinal && entries.length > 0;
+    const shouldPlay = enableMusic && !isFinal && entries.length > 0;
 
     if (!shouldPlay) {
       stopAudio(audioRef.current);
@@ -58,20 +65,32 @@ export default function Leaderboard({
     }
 
     if (!audioRef.current) {
-      audioRef.current = startLeaderboardMusic();
+      audioRef.current = startLeaderboardMusic(() => {
+        audioRef.current = null;
+      });
     }
 
     return () => {
       stopAudio(audioRef.current);
       audioRef.current = null;
     };
-  }, [isFinal, entries.length]);
+  }, [enableMusic, isFinal, entries.length]);
 
   return (
     <div className="brutal-card bg-[#FFF9E6] p-4 sm:p-6">
       <h3 className="mb-3 sm:mb-4 text-xl sm:text-2xl font-black text-black">
         לוח תוצאות
       </h3>
+      {correctAnswerLabel ? (
+        <p className="mb-3 sm:mb-4 text-base sm:text-lg font-black text-black break-words px-1">
+          {correctAnswerLabel}
+        </p>
+      ) : null}
+      {participantAnswerLabel ? (
+        <p className="mb-3 sm:mb-4 text-base sm:text-lg font-black text-black break-words px-1">
+          {participantAnswerLabel}
+        </p>
+      ) : null}
       {displayEntries.length === 0 ? (
         <p className="text-base sm:text-lg font-bold text-black">
           אין ניקוד עדיין
